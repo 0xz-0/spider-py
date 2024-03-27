@@ -22,9 +22,10 @@ base from scrapy. To crawl sth simply
   
 * 包含以下爬虫，详见[crawlab.README](./crawlab/README.md)
 
-| 爬虫名 | 内容名   | 来源                                        | 说明 |
-| :----: | :------: | :-----------------------------------------: | :--- |
-| clc    | 中图分类 | [www.clcindex.com](http://www.clcindex.com) |      |
+| 爬虫名 |                                                 来源                                                  | 说明 |
+| :----: | :---------------------------------------------------------------------------------------------------: | :--: |
+|  clc   |                               [中图分类号查询](http://www.clcindex.com)                               |      |
+|  qhdm  | [2023年统计用区划代码和城乡划分代码](https://www.stats.gov.cn/sj/tjbz/tjyqhdmhcxhfdm/2023/index.html) |      |
   
 * 启动爬虫
   ```cd crawlab && scrapy crawl {{spider_name}}```

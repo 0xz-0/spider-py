@@ -8,7 +8,7 @@
 from datetime import datetime
 
 from . import items
-from .utils.database import DBClcItems
+from .utils.database import DBClcItems, DBQhdmItems
 
 
 class CrawlabPipeline:
@@ -48,6 +48,46 @@ class ClcPipeline2Postgres:
                     DBClcItems.crawl_url,
                 ],
                 update={DBClcItems.update_time: datetime.now()},
+            )
+            .execute()
+        )
+        return item
+
+
+class QhdmPipeline2Postgres:
+    """QHDM 数据入PG库"""
+
+    def open_spider(self, spider):
+        if not DBQhdmItems.table_exists():
+            DBQhdmItems.create_table()
+
+    def close_spider(self, spider):
+        pass
+
+    def process_item(self, item: items.QhdmItem, spider):
+        self._write_row(item)
+        return item
+
+    def _write_row(self, item: items.QhdmItem):
+        _: int = (
+            DBQhdmItems.insert(
+                code=item.get("code", ""),
+                name=item.get("name", ""),
+                level=item.get("level", 0),
+                classification_code=item.get("classification_code"),
+                parent_code=item.get("parent_code"),
+                crawl_url=item.get("crawl_url", ""),
+            )
+            .on_conflict(
+                conflict_target=[DBQhdmItems.code],
+                preserve=[
+                    DBQhdmItems.name,
+                    DBQhdmItems.level,
+                    DBQhdmItems.classification_code,
+                    DBQhdmItems.parent_code,
+                    DBQhdmItems.crawl_url,
+                ],
+                update={DBQhdmItems.update_time: datetime.now()},
             )
             .execute()
         )

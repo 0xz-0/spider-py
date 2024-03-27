@@ -34,3 +34,18 @@ class ClcItem(scrapy.Item):
     """父分类号"""
     crawl_url = scrapy.Field(serializer=str)
     """爬取链接"""
+
+
+class QhdmItem(scrapy.Item):
+    code = scrapy.Field(serializer=str)
+    """统计用区划代码"""
+    name = scrapy.Field(serializer=str)
+    """名称"""
+    level = scrapy.Field(serializer=str)
+    """级别"""
+    classification_code = scrapy.Field(serializer=str)
+    """城乡分类代码"""
+    parent_code = scrapy.Field(serializer=str)
+    """上级代码"""
+    crawl_url = scrapy.Field(serializer=str)
+    """爬取链接"""
