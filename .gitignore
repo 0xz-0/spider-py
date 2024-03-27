@@ -1,0 +1,16 @@
+# setting
+scrapy.cfg
+.env
+
+# cache
+__pycache__
+build
+
+# deploy
+project.egg-info
+crawlab/setup.py
+crawlab/crawlab/local_settings.py
+
+# IDE
+## vscode
+spider-py.code-workspace
