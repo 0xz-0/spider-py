@@ -94,6 +94,9 @@ TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
 # customize config from env or local_settings.py
+## LOG
+LOG_LEVEL = "DEBUG"
+
 ## DATABASE
 POSTGRES_CONFIG = {
     "database": "postgres",

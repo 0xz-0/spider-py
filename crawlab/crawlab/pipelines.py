@@ -38,6 +38,7 @@ class ClcPipeline2Postgres:
                 title=item.get("title", ""),
                 parent_no=item.get("parent_no"),
                 crawl_url=item.get("crawl_url", ""),
+                crawl_time=item.get("crawl_time", default=datetime.now()),
             )
             .on_conflict(
                 conflict_target=[DBClcItems.no],
@@ -77,6 +78,7 @@ class QhdmPipeline2Postgres:
                 classification_code=item.get("classification_code"),
                 parent_code=item.get("parent_code"),
                 crawl_url=item.get("crawl_url", ""),
+                crawl_time=item.get("crawl_time", default=datetime.now()),
             )
             .on_conflict(
                 conflict_target=[DBQhdmItems.code],
