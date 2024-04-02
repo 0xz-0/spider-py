@@ -29,4 +29,9 @@ base from scrapy. To crawl sth simply
   
 * 启动爬虫
   ```cd crawlab && scrapy crawl {{spider_name}}```
-  
+
+## sina project
+
+* 新浪专用爬虫，目前主要包含微博相关
+
+* 详见[sina.README](./sina/README.md)

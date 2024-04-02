@@ -8,9 +8,12 @@ build
 
 # deploy
 project.egg-info
-crawlab/setup.py
-crawlab/crawlab/local_settings.py
+setup.py
+local_settings.py
 
 # IDE
 ## vscode
 spider-py.code-workspace
+
+# tools
+chromedriver.exe
