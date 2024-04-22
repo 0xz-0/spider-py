@@ -21,6 +21,9 @@ class SeleniumMiddleware:
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-gpu")
         options.add_argument("--disable-dev-shm-usage")
+        options.add_argument(
+            "--no-zygote"
+        )  # refer：https://chromium.googlesource.com/chromium/src/+/master/docs/linux/zygote.md
 
         for argument in driver_arguments:
             options.add_argument(argument)
@@ -73,4 +76,5 @@ class SeleniumMiddleware:
 
     def spider_closed(self):
         """Shutdown the driver when spider is closed"""
-        self.driver.quit()
+        # self.driver.quit()
+        self.driver.stop_client()
