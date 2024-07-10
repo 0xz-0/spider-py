@@ -6,6 +6,8 @@
 
 # useful for handling different item types with a single interface
 from datetime import datetime
+import os
+from scrapy.exporters import CsvItemExporter
 
 from . import items
 from .utils.database import DBClcItems, DBQhdmItems
@@ -93,4 +95,43 @@ class QhdmPipeline2Postgres:
             )
             .execute()
         )
+        return item
+
+
+class IntelCpuRankPipeline2Csv:
+    """英特尔处理器性能排行 数据入CSV"""
+
+    def open_spider(self, spider):
+        now: str = datetime.now().strftime("%Y%m%d%H%M%S")
+        directory = "./data"
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        self.file = open(
+            file=f"{directory}/英特尔处理器性能排名_{now}.csv",
+            mode="wb",
+        )
+        self.exporter = CsvItemExporter(
+            self.file,
+            include_headers_line=True,
+            encoding="utf-8",
+            fields_to_export=[  # 指定导出的字段，目前全部导出，此处主要是保证顺序
+                "rank",
+                "processor",
+                "points",
+                "cores",
+                "hertz",
+                "tdp",
+                "release_date",
+                "crawl_url",
+                "crawl_time",
+            ],
+        )
+        self.exporter.start_exporting()
+
+    def close_spider(self, spider):
+        self.exporter.finish_exporting()
+        self.file.close()
+
+    def process_item(self, item: items.IntelCpuRankItem, spider):
+        self.exporter.export_item(item)
         return item

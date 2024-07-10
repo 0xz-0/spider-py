@@ -23,8 +23,16 @@ class _CrawlabItem(scrapy.Item):
         serializer=str,
     )
     """爬取链接"""
-    crawl_time = datetime.now()
+    crawl_time = scrapy.Field(
+        name="crawl_time",
+        # default_value=datetime.now(),# 此行无效！！！
+        serializer=lambda x: x.strftime("%Y-%m-%d %H:%M:%S"),
+    )
     """爬取时间"""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self['crawl_time'] = datetime.now()
 
 
 class ClcItem(_CrawlabItem):
@@ -49,3 +57,20 @@ class QhdmItem(_CrawlabItem):
     """城乡分类代码"""
     parent_code = scrapy.Field(serializer=str)
     """上级代码"""
+
+
+class IntelCpuRankItem(_CrawlabItem):
+    rank = scrapy.Field(serializer=int)
+    """当前排名"""
+    processor = scrapy.Field(serializer=str)
+    """处理器名称"""
+    points = scrapy.Field(serializer=int)
+    """评分"""
+    cores = scrapy.Field(serializer=str)
+    """核心数"""
+    hertz = scrapy.Field(serializer=str)
+    """主频"""
+    tdp = scrapy.Field(serializer=str)
+    """热设计功耗"""
+    release_date = scrapy.Field(serializer=str)
+    """发布日期"""
