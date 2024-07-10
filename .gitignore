@@ -17,3 +17,6 @@ spider-py.code-workspace
 
 # tools
 chromedriver.exe
+
+# data
+crawlab/data/
