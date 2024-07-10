@@ -2,7 +2,7 @@
 
 ## 爬虫目录
 
-### CLC - 中国图书分类(Chinese Library Classification)
+### clc - 中国图书分类(Chinese Library Classification)
   
 * 主站地址: [www.clcindex.com](http://www.clcindex.com)
 
@@ -21,6 +21,14 @@
 
 * 启动
   * ```scrapy crawl qhdm```或```scrapy runspider ./crawlab/spiders/qhdm.py```
+  
+### intel_cpu_rank - 英特尔处理器性能排名
+
+* 主站地址：[CPU-Compare](https://cpu-compare.com/zh-CN)
+  * 榜单地址：[英特尔处理器性能排名](https://cpu-compare.com/zh-CN/benchmark/intel?page=1)
+  
+* 启动
+  * 当前目录下：```scrapy crawl intel_cpu_rank```
 
 ## 开发SOP
 
