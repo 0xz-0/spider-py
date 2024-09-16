@@ -45,4 +45,4 @@
    * 定义爬虫结果的存储形式
   
 4. 执行爬虫命令
-   * 本地执行：```scrapy crawl {{spider_name}}```
+   * 本地执行：```scrapy crawl {{spider_name}} -a params1=value1 -a params2=value2```

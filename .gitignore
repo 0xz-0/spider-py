@@ -20,3 +20,4 @@ chromedriver.exe
 
 # data
 crawlab/data/
+crawlab/crawlab/scripts/local_script.ipynb
