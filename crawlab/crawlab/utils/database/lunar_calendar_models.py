@@ -12,7 +12,7 @@ class LunarCalendarDescription(conn._PGBaseModel):
     type = CharField(help_text="类型，如宜忌、节日等")
     name = CharField(help_text="名称")
     title = CharField(help_text="标题")
-    description = BinaryJSONField(help_text="描述", default=[], null=True)
+    description = BinaryJSONField(help_text="描述", default=None, null=True)
 
     class Meta:
         table_name = "lunar_calendar_description"
