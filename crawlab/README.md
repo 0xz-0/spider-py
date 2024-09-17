@@ -29,6 +29,15 @@
   
 * 启动
   * 当前目录下：```scrapy crawl intel_cpu_rank```
+  
+### lunar_calendar - 日历
+
+* 主站地址：[万年历](https://wannianrili.bmcx.com/)
+
+* 启动(当前目录下)
+  * 获取某年某月每日的数据：```scrapy crawl lunar_calendar -a year=2023 -a month=1```
+  * 获取节日、节气、黄历忌宜等描述数据：```scrapy crawl lunar_calendar_description```
+    * 注：此描述数据，基于每日数据结果，进行补充
 
 ## 开发SOP
 
@@ -45,4 +54,4 @@
    * 定义爬虫结果的存储形式
   
 4. 执行爬虫命令
-   * 本地执行：```scrapy crawl {{spider_name}}```
+   * 本地执行：```scrapy crawl {{spider_name}} -a params1=value1 -a params2=value2```
