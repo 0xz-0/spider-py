@@ -35,8 +35,8 @@ class LunarCalendarSpider(scrapy.Spider):
         return self.url.format(year=year, month=month)
 
     def start_requests(self):
-        year = int(getattr(self, "year", 2024))
-        month = int(getattr(self, "month", 10))
+        year = int(getattr(self, "year", datetime.now().year))
+        month = int(getattr(self, "month", datetime.now().month))
         yield scrapy.Request(
             url=self._get_url(year=year, month=month),
             callback=self.parse,
