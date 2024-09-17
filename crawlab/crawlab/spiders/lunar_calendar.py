@@ -227,3 +227,84 @@ class LunarCalendarSpider(scrapy.Spider):
 
     def closed(self, reason):
         print("爬虫结束,共爬取1页,原因是:", reason)
+
+
+class LunarCalendarDescriptionSpider(scrapy.Spider):
+    name = "lunar_calendar_description"
+    custom_settings = {
+        "DOWNLOAD_DELAY": 1,
+        "ITEM_PIPELINES": {
+            "crawlab.pipelines.LunarCalendarDescriptionPipeline2Postgres": 300
+        },
+        "DOWNLOADER_MIDDLEWARES": {},
+    }
+    allowed_domains: List[str] = [
+        "wannianrili.bmcx.com",
+        "laohuangli.bmcx.com",
+        "jieqi.bmcx.com",
+    ]
+    logger = logging.getLogger(name=__name__)
+    counter: int = 0
+
+    def start_requests(self):
+        for record in DBLunarCalendarDescription.select(
+            DBLunarCalendarDescription.crawl_url,
+            DBLunarCalendarDescription.id,
+            DBLunarCalendarDescription.type,
+        ).where(
+            DBLunarCalendarDescription.update_time == None,
+            DBLunarCalendarDescription.description == None,
+        ):
+            yield scrapy.Request(
+                url=record.crawl_url,
+                callback=self.parse,
+                meta=dict(id=record.id, type=record.type),
+            )
+
+    def parse(self, response: Response):
+        self.logger.info(msg="开始解析: %s" % response.url)
+        self.counter += 1
+        soup = BeautifulSoup(response.text, "html.parser")
+        if response.meta["type"] == LunarCalendarDescriptionTypeEnum.festival.value:
+            yield self._parse_wannianrili(soup, response.meta["id"])
+        elif response.meta["type"] == LunarCalendarDescriptionTypeEnum.yi_ji.value:
+            yield self._parse_laohuangli(soup, response.meta["id"])
+
+    def _parse_wannianrili(
+        self, soup: BeautifulSoup, id: int
+    ) -> LunarCalendarDescriptionItem:
+        title: List[str] = soup.find_all("div", class_="jieqi_neirong_x_biaoti")
+        content: List[str] = soup.find_all("div", class_="jieqi_neirong_x_beizhu")
+        description: List = list()
+        for idx in range(min(len(title), len(content))):
+            description.append(
+                {
+                    "title": title[idx].text.strip(),
+                    "content": list(
+                        filter(lambda x: x != "", content[idx].text.strip().split("\n"))
+                    ),
+                }
+            )
+        return LunarCalendarDescriptionItem(
+            item_id=id,
+            type=LunarCalendarDescriptionTypeEnum.festival.value,
+            description=description,
+        )
+
+    def _parse_laohuangli(
+        self, soup: BeautifulSoup, id: int
+    ) -> LunarCalendarDescriptionItem:
+        description: List = list(
+            map(
+                lambda x: x.text.strip(),
+                soup.find(name="div", class_="neirong").find_all("p"),
+            )
+        )
+        return LunarCalendarDescriptionItem(
+            item_id=id,
+            type=LunarCalendarDescriptionTypeEnum.yi_ji.value,
+            description=description,
+        )
+
+    def closed(self, reason):
+        print("爬虫结束,共爬取%d页,原因是:" % self.counter, reason)

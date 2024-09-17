@@ -32,7 +32,7 @@ class _CrawlabItem(scrapy.Item):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self['crawl_time'] = datetime.now()
+        self["crawl_time"] = datetime.now()
 
 
 class ClcItem(_CrawlabItem):
@@ -77,13 +77,15 @@ class IntelCpuRankItem(_CrawlabItem):
 
 
 class LunarCalendarDescriptionItem(_CrawlabItem):
+    item_id = scrapy.Field(serializer=int)
+    """ID"""
     type = scrapy.Field(serializer=str)
     """类型"""
     name = scrapy.Field(serializer=str)
     """名称"""
     title = scrapy.Field(serializer=str)
     """标题"""
-    description = scrapy.Field(serializer=str)
+    description = scrapy.Field(serializer=list)
     """描述"""
 
 

@@ -214,11 +214,30 @@ class LunarCalendarPipeline2Postgres:
                 type=item.get("type", ""),
                 name=item.get("name", ""),
                 title=item.get("title", ""),
-                description=item.get("description", ""),
                 crawl_url=item.get("crawl_url", ""),
                 crawl_time=item.get("crawl_time", default=datetime.now()),
             )
             .on_conflict_ignore()
             .execute()
         )
+        return item
+
+
+class LunarCalendarDescriptionPipeline2Postgres:
+    """日历描述 数据入PG库"""
+
+    def open_spider(self, spider):
+        if not DBLunarCalendarDescription.table_exists():
+            DBLunarCalendarDescription.create_table()
+
+    def close_spider(self, spider):
+        pass
+
+    def process_item(self, item: items.LunarCalendarDescriptionItem, spider):
+        DBLunarCalendarDescription.update(
+            {
+                DBLunarCalendarDescription.description: item.get("description", ""),
+                DBLunarCalendarDescription.update_time: datetime.now(),
+            }
+        ).where(DBLunarCalendarDescription.id == item["item_id"]).execute()
         return item
