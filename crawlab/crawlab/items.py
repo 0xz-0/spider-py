@@ -150,3 +150,26 @@ class LunarCalendarDailyItem(_CrawlabItem):
     """十二神"""
     payload = scrapy.Field(serializer=dict)
     """剩余数据"""
+
+
+class BaiduHistoryTodayItem(_CrawlabItem):
+    date = scrapy.Field(serializer=str)
+    """日期"""
+    year = scrapy.Field(serializer=int)
+    """年"""
+    title = scrapy.Field(serializer=str)
+    """标题"""
+    desc = scrapy.Field(serializer=str)
+    """描述"""
+    festival = scrapy.Field(serializer=str)
+    """节日"""
+    link = scrapy.Field(serializer=str)
+    """链接"""
+    type = scrapy.Field(serializer=str)
+    """类型"""
+    cover = scrapy.Field(serializer=bool)
+    """封面"""
+    recommend = scrapy.Field(serializer=bool)
+    """推荐"""
+    payload = scrapy.Field(serializer=dict)
+    """剩余数据"""

@@ -15,6 +15,7 @@ from .utils.database import (
     DBQhdmItems,
     DBLunarCalendar,
     DBLunarCalendarDescription,
+    BaiduHistoryToday,
 )
 
 
@@ -240,4 +241,40 @@ class LunarCalendarDescriptionPipeline2Postgres:
                 DBLunarCalendarDescription.update_time: datetime.now(),
             }
         ).where(DBLunarCalendarDescription.id == item["item_id"]).execute()
+        return item
+
+
+class BaiduHistoryTodayPipeline2Postgres:
+    """百度历史上的今天 数据入PG库"""
+
+    def open_spider(self, spider):
+        if not BaiduHistoryToday.table_exists():
+            BaiduHistoryToday.create_table()
+
+    def close_spider(self, spider):
+        pass
+
+    def process_item(self, item: items.BaiduHistoryTodayItem, spider):
+        self._write_row(item)
+        return item
+
+    def _write_row(self, item: items.BaiduHistoryTodayItem):
+        _: int = (
+            BaiduHistoryToday.insert(
+                date="%s-%s" % (item["date"][:2], item["date"][2:]),
+                year=item.get("year", 0),
+                title=item.get("title", ""),
+                desc=item.get("desc", ""),
+                festival=item.get("festival", ""),
+                link=item.get("link", ""),
+                type=item.get("type", ""),
+                cover=item.get("cover", False),
+                recommend=item.get("recommend", False),
+                payload=item.get("payload", {}),
+                crawl_url=item.get("crawl_url", ""),
+                crawl_time=item.get("crawl_time", default=datetime.now()),
+            )
+            # .on_conflict_ignore()
+            .execute()
+        )
         return item
