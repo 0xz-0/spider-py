@@ -39,6 +39,13 @@
   * 获取节日、节气、黄历忌宜等描述数据：```scrapy crawl lunar_calendar_description```
     * 注：此描述数据，基于每日数据结果，进行补充
 
+### baidu_history_today - 百度历史上的今天
+
+* 主站地址：[百度历史上的今天](https://baike.baidu.com/calendar/)
+
+* 启动
+  * 当前目录下：```scrapy crawl intel_cpu_rank```
+
 ## 开发SOP
 
 * 临时爬虫的开发流程
