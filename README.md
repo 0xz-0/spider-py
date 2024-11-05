@@ -28,6 +28,7 @@ base from scrapy. To crawl sth simply
 |      qhdm      | [2023年统计用区划代码和城乡划分代码](https://www.stats.gov.cn/sj/tjbz/tjyqhdmhcxhfdm/2023/index.html) |      |
 | intel_cpu_rank |             [英特尔处理器性能排名](https://cpu-compare.com/zh-CN/benchmark/intel?page=1)              |      |
 | lunar_calendar |                                [万年历](https://wannianrili.bmcx.com/)                                |      |
+| baidu_history_today |                          [百度历史上的今天](https://baike.baidu.com/calendar/)                          |      |
 
 * 启动爬虫
   ```cd crawlab && scrapy crawl {{spider_name}} --a param1=value1 --a param2=value2```
